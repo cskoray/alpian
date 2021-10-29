@@ -1,0 +1,40 @@
+server:
+  port: 9999
+
+management:
+  endpoints:
+    web:
+      expose: "*"
+      base-path: "/"
+      path-mapping:
+        prometheus: "metrics"
+      exposure:
+        include: [ "health", "info" ]
+  info:
+    git:
+      mode: full
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+    testWhileIdle: "true"
+    validationQuery: SELECT 1
+    initialization-mode: always
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: validate
+        dialect: org.hibernate.dialect.H2Dialect
+        use_sql_comments: false
+        format_sql: true
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      # Naming strategy
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    show-sql: true
+  jackson:
+    default-property-inclusion: NON_NULL
